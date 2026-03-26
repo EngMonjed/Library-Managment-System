@@ -22,9 +22,15 @@ Route::post('/authors', [AuthorController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('publishers', PublisherController::class);
     Route::apiResource('books', BookController::class);
-
-    // Attach authors to a book
-    Route::post('/books/{book}/authors', [BookAuthorController::class, 'attachAuthors']);
-    // Detach one author from a book
-    Route::delete('/books/{book}/authors/{author}', [BookAuthorController::class, 'detachAuthor']);
 });
+
+// Attach authors to a book
+Route::post('/books/{book}/authors', [BookAuthorController::class, 'attachAuthors']);
+// Detach one author from a book
+Route::delete('/books/{book}/authors/{author}', [BookAuthorController::class, 'detachAuthor']);
+
+// Get authors of a book
+Route::get('/books/{book}/authors', [BookAuthorController::class, 'getAuthorsOfBook']);
+
+// Get books of an author
+Route::get('/authors/{author}/books', [BookAuthorController::class, 'getBooksOfAuthor']);

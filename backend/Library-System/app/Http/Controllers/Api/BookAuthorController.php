@@ -29,4 +29,23 @@ class BookAuthorController extends Controller
 
         return response()->json(['message' => 'Author detached successfully']);
     }
+    // Get all authors of a specific book
+    public function getAuthorsOfBook(Book $book)
+    {
+        return response()->json([
+            'book_id' => $book->id,
+            'book_title' => $book->title,
+            'authors' => $book->authors
+        ]);
+    }
+
+    // Get all books of a specific author
+    public function getBooksOfAuthor(Author $author)
+    {
+        return response()->json([
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'books' => $author->books
+        ]);
+    }
 }
