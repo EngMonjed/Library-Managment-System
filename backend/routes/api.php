@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\BookAuthorController;
 use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowingController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\FineController;
 
 // Login
 Route::post('/login', [AuthController::class, 'login']);
@@ -94,3 +96,17 @@ Route::get('/borrowings', [BorrowingController::class, 'index']);
 Route::get('/borrowings/{id}', [BorrowingController::class, 'show']);
 Route::put('/borrowings/{id}', [BorrowingController::class, 'update']);
 Route::delete('/borrowings/{id}', [BorrowingController::class, 'destroy']);
+
+// Branch routes
+Route::get('/branches', [BranchController::class, 'index']);
+Route::post('/branches', [BranchController::class, 'store']);
+Route::get('/branches/{id}', [BranchController::class, 'show']);
+Route::put('/branches/{id}', [BranchController::class, 'update']);
+Route::delete('/branches/{id}', [BranchController::class, 'destroy']);
+
+// Fine routes
+Route::get('/fines', [FineController::class, 'index']);
+Route::post('/fines', [FineController::class, 'store']);
+Route::get('/fines/{id}', [FineController::class, 'show']);
+Route::put('/fines/{id}', [FineController::class, 'update']);
+Route::delete('/fines/{id}', [FineController::class, 'destroy']);

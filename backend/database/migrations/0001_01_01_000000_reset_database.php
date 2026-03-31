@@ -8,6 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // Personal Access Tokens
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('tokenable');
+            $table->text('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamp('expires_at')->nullable()->index();
+            $table->timestamps();
+        });
+
         // Users
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -18,6 +30,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        // Sessions
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
+        });
         // Permissions
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
@@ -226,6 +247,8 @@ return new class extends Migration
         Schema::dropIfExists('branches');
         Schema::dropIfExists('permissions');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('personal_access_tokens');
+        Schema::dropIfExists('sessions');
         Schema::enableForeignKeyConstraints();
     }
 };
