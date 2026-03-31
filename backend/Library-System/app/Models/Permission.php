@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Publisher extends Model
+class Permission extends Model
 {
-    protected $table = 'publishers';
+    protected $table = 'permissions';
 
     protected $fillable = [
         'name',
-        
+        'description',
     ];
+
 }

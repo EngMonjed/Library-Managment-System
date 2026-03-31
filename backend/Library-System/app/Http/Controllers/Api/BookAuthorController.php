@@ -48,4 +48,20 @@ class BookAuthorController extends Controller
             'books' => $author->books
         ]);
     }
+    public function syncAuthors(Request $request, Book $book)
+    {
+        $data = $request->validate([
+            'author_ids' => 'required|array',
+            'author_ids.*' => 'exists:authors,id'
+        ]);
+
+        // Sync authors
+        $book->authors()->sync($data['author_ids']);
+
+        return response()->json([
+            'message' => 'Authors synced successfully',
+            'book_id' => $book->id,
+            'authors' => $book->authors
+        ]);
+    }
 }

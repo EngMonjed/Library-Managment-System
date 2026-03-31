@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Publisher;
+use App\Models\SubCategory;
 
 class Book extends Model
 {
@@ -22,6 +24,11 @@ class Book extends Model
     }
     public function publisher()
     {
-        return $this->belongsTo(Publisher::class);
+        return $this->belongsTo(Publisher::class, 'publisher_id');
+    }
+
+    public function subCategories()
+    {
+        return $this->belongsToMany(SubCategory::class, 'books_categories', 'book_id', 'sub_category_id');
     }
 }
