@@ -11,7 +11,7 @@ class PublisherController extends Controller
     // GET /api/publishers
     public function index()
     {
-        return Publisher::all();
+        return Publisher::withCount('books')->get();
     }
 
     // POST /api/publishers

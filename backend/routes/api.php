@@ -46,6 +46,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/authors', [AuthorController::class, 'index']);
 Route::get('/authors/{author}', [AuthorController::class, 'show']);
 Route::post('/authors', [AuthorController::class, 'store']);
+Route::put('/authors/{author}', [AuthorController::class, 'update']);
+Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
 // crud routes for publishers and books, protected by auth middleware
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('publishers', PublisherController::class);
@@ -110,3 +112,8 @@ Route::post('/fines', [FineController::class, 'store']);
 Route::get('/fines/{id}', [FineController::class, 'show']);
 Route::put('/fines/{id}', [FineController::class, 'update']);
 Route::delete('/fines/{id}', [FineController::class, 'destroy']);
+
+// Handle CORS preflight requests for all routes
+Route::options('{any}', function () {
+    return response()->json([], 200);
+})->where('any', '.*');
