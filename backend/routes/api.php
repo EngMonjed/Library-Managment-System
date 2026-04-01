@@ -11,6 +11,9 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\FineController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubCategoryController;
+
 
 // Login
 Route::post('/login', [AuthController::class, 'login']);
@@ -66,28 +69,13 @@ Route::get('/authors/{author}/books', [BookAuthorController::class, 'getBooksOfA
 // Sync authors of a book
 Route::put('/books/{book}/authors/sync', [BookAuthorController::class, 'syncAuthors']);
 
-// Search for books, protected by permission middleware
-Route::get('/books/search', [BookController::class, 'search'])
-    ->middleware('permission:view_books');
-
-// CRUD routes for books, protected by permission middleware
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/books/search', [BookController::class, 'search'])
-        ->middleware('permission:view_books');
+// Books routes: auth first, then permission check
+Route::middleware(['auth:sanctum', 'permission:manage_books'])->group(function () {
+    Route::get('/books', [BookController::class, 'index']);
+    Route::get('/books/search', [BookController::class, 'search']);
+    Route::put('/books/{id}', [BookController::class, 'update']);
+    Route::delete('/books/{id}', [BookController::class, 'destroy']);
 });
-
-
-// Example of a protected route with permission middleware
-Route::get('/books', [BookController::class, 'index'])
-    ->middleware('permission:view_books');
-
-// Example of a protected route with permission middleware for editing books
-Route::put('/books/{id}', [BookController::class, 'update'])
-    ->middleware('permission:edit_books');
-
-// Example of a protected route with permission middleware for deleting books
-Route::delete('/books/{id}', [BookController::class, 'destroy'])
-    ->middleware('permission:delete_books');
 //borrowing routes
 Route::post('/borrowings', [BorrowingController::class, 'store']); // إنشاء استعارة
 Route::put('/borrowings/items/{id}/return', [BorrowingController::class, 'returnItem']); // إرجاع نسخة
@@ -112,6 +100,21 @@ Route::post('/fines', [FineController::class, 'store']);
 Route::get('/fines/{id}', [FineController::class, 'show']);
 Route::put('/fines/{id}', [FineController::class, 'update']);
 Route::delete('/fines/{id}', [FineController::class, 'destroy']);
+
+// Category routes
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::post('/categories', [CategoryController::class, 'store']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+Route::put('/categories/{id}', [CategoryController::class, 'update']);
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+
+// Sub-category routes
+Route::get('/sub-categories', [SubCategoryController::class, 'index']);
+Route::post('/sub-categories', [SubCategoryController::class, 'store']);
+Route::get('/sub-categories/{id}', [SubCategoryController::class, 'show']);
+Route::put('/sub-categories/{id}', [SubCategoryController::class, 'update']);
+Route::delete('/sub-categories/{id}', [SubCategoryController::class, 'destroy']);
+
 
 // Handle CORS preflight requests for all routes
 Route::options('{any}', function () {

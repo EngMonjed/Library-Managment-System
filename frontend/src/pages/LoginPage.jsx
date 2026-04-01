@@ -38,12 +38,15 @@ export default function LoginPage({ onLogin }) {
       }
 
       const token = data.token || data.access_token;
-      if (token) {
-        if (rememberMe) {
-          localStorage.setItem("auth_token", token);
-        } else {
-          sessionStorage.setItem("auth_token", token);
-        }
+      if (!token) {
+        setError("تم تسجيل الدخول لكن لم يتم استلام رمز التوثيق (token).");
+        return;
+      }
+
+      if (rememberMe) {
+        localStorage.setItem("auth_token", token);
+      } else {
+        sessionStorage.setItem("auth_token", token);
       }
 
       onLogin();
@@ -76,8 +79,8 @@ export default function LoginPage({ onLogin }) {
                     d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                 </svg>
               </div>
-              <h1 className="text-xl font-bold text-slate-900">مرحباً بعودتك</h1>
-              <p className="text-sm text-slate-500 mt-1">سجّل دخولك للمتابعة</p>
+              {/* <h1 className="text-xl font-bold text-slate-900">مرحباً بعودتك</h1>
+              <p className="text-sm text-slate-500 mt-1">سجّل دخولك للمتابعة</p> */}
             </div>
 
             {/* Error */}
@@ -116,9 +119,9 @@ export default function LoginPage({ onLogin }) {
               {/* Password */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <a href="/forgot-password" className="text-xs text-slate-500 hover:text-slate-800 transition-colors">
+                  {/* <a href="/forgot-password" className="text-xs text-slate-500 hover:text-slate-800 transition-colors">
                     نسيت كلمة المرور؟
-                  </a>
+                  </a> */}
                   <label htmlFor="password" className="block text-sm font-medium text-slate-700">
                     كلمة المرور
                   </label>
@@ -195,18 +198,18 @@ export default function LoginPage({ onLogin }) {
           </div>
 
           {/* Footer */}
-          <div className="px-8 py-4 bg-slate-50 border-t border-slate-100 text-center">
+          {/* <div className="px-8 py-4 bg-slate-50 border-t border-slate-100 text-center">
             <p className="text-sm text-slate-500">
               <a href="/register" className="text-slate-800 font-medium hover:underline">
                 إنشاء حساب جديد
               </a>
               {" "}ليس لديك حساب؟
             </p>
-          </div>
+          </div> */}
         </div>
 
-        <p className="text-center text-xs text-slate-400 mt-6">
-        © {new Date().getFullYear()}   جميع الحقوق محفوظة  </p>
+        <p className="text-center text-xs text-slate-400 mt-6"><br></br>
+        © {new Date().getFullYear()}                   جميع الحقوق محفوظة  </p>
         <p className="text-center text-xs text-slate-400 mt-6">Ver 0.0.1</p>
       </div>
     </div>

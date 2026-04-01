@@ -10,14 +10,18 @@ class BookController extends Controller
     // عرض كل الكتب
     public function index()
     {
-        $books = Book::with(['publisher', 'subCategories.category'])->get();
+        $books = Book::with(['publisher', 'authors', 'subCategories.category'])
+            ->withCount('bookCopies')
+            ->get();
         return response()->json($books);
     }
 
     // عرض كتاب واحد
     public function show($id)
     {
-        $book = Book::with(['publisher', 'subCategories.category'])->findOrFail($id);
+        $book = Book::with(['publisher', 'authors', 'subCategories.category'])
+            ->withCount('bookCopies')
+            ->findOrFail($id);
         return response()->json($book);
     }
 
@@ -79,7 +83,9 @@ class BookController extends Controller
             });
         }
 
-        $books = $query->with(['publisher', 'subCategories.category'])->get();
+        $books = $query->with(['publisher', 'authors', 'subCategories.category'])
+            ->withCount('bookCopies')
+            ->get();
 
         return response()->json($books);
     }

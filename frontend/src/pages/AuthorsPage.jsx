@@ -311,11 +311,9 @@ export default function AuthorsPage() {
               </button>
               <div className="text-right">
                 <h3 className="text-slate-800 font-bold text-base">
-                  {editTarget ? "تعديل بيانات المؤلف" : "إضافة مؤلف جديد"}
+                {editTarget ? `تعديل: ${editTarget.name}` : "أدخل بيانات المؤلف الجديد"}
                 </h3>
-                <p className="text-slate-400 text-xs mt-0.5">
-                  {editTarget ? `تعديل: ${editTarget.name}` : "أدخل بيانات المؤلف الجديد"}
-                </p>
+
               </div>
             </div>
 

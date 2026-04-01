@@ -6,7 +6,7 @@ return localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token"
 }
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => !!getToken());
-  const handleLogin = () => setIsLoggedIn(true);
+  const handleLogin = () => setIsLoggedIn(!!getToken());
   const handleLogout = () => {
     localStorage.removeItem("auth_token");
     sessionStorage.removeItem("auth_token");

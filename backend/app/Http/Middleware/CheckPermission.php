@@ -26,8 +26,20 @@ class CheckPermission
         if ($user->role === 'staff') {
             $branchId = $request->branch_id ?? $request->input('branch_id');
 
+            // If branch_id is not provided (e.g. listing books),
+            // allow access when user has the permission in any branch.
             if (!$branchId) {
-                return response()->json(['message' => 'branch_id is required'], 400);
+                $hasPermission = UserBranchPermission::where('user_id', $user->id)
+                    ->whereHas('permission', function ($q) use ($permission) {
+                        $q->where('name', $permission);
+                    })
+                    ->exists();
+
+                if (!$hasPermission) {
+                    return response()->json(['message' => 'Unauthorized'], 403);
+                }
+
+                return $next($request);
             }
 
             $hasPermission = UserBranchPermission::where('user_id', $user->id)

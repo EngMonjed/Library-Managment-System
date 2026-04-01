@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 
 const API = "/api/publishers";
 
@@ -205,7 +205,7 @@ export default function PublishersPage() {
               </thead>
               <tbody>
                 {filtered.map((pub, idx) => (
-                  <>
+                  <Fragment key={pub.id}>
                     {/* Publisher row */}
                     <tr key={pub.id} className="hover:bg-slate-50 transition-colors group border-b border-slate-100">
                       <td className="px-5 py-3.5 text-slate-400 text-xs">{idx + 1}</td>
@@ -277,7 +277,7 @@ export default function PublishersPage() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>

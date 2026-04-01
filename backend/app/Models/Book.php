@@ -31,4 +31,9 @@ class Book extends Model
     {
         return $this->belongsToMany(SubCategory::class, 'books_categories', 'book_id', 'sub_category_id');
     }
+
+    public function bookCopies()
+    {
+        return $this->hasMany('App\Models\BookCopy', 'book_id');
+    }
 }
